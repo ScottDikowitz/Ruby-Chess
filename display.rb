@@ -6,7 +6,7 @@ require_relative 'cursorable'
 class Display
   attr_reader :board
   attr_accessor :cursor
-  
+
   def initialize(board)
     @cursor = [0,0]
     @selected = false
@@ -18,14 +18,14 @@ class Display
       row_rep = []
       row.each_with_index do |square, idy|
         if self.cursor == [idx, idy]
-          row_rep << "O".colorize(:blue)
+          row_rep << " p ".colorize(:color => :white, :background => :blue)
         elsif board[[idx, idy]]
-          row_rep << "p"
+          row_rep << " p "
         else
-          row_rep << "_"
+          row_rep << " _ "
         end
       end
-      puts row_rep.join(" | ")
+      puts row_rep.join("|")
     end
   end
 end

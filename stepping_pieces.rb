@@ -25,6 +25,13 @@ class Knight < SteppingPiece
   def initialize(pos, color, board)
     super
   end
+
+  def moves
+  end
+
+  def move_dirs
+    [[2,-1],[2,1],[-2-1],[-2,1],[1,2],[1,-2],[-1,2],[-1,-2]]
+  end
 end
 
 class King < SteppingPiece
