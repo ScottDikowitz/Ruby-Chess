@@ -1,3 +1,6 @@
+require_relative 'sliding_pieces'
+require_relative 'stepping_pieces'
+
 class Piece
   attr_reader :color, :pos, :board
   def initialize(pos, color, board)
@@ -11,85 +14,47 @@ class Piece
   end
 end
 
-class SlidingPiece < Piece
-  def initialize(pos, color, board)
+
+class Pawn < Piece
+  attr_accessor :moved
+  def initalize(pos, color, board)
     super
+    @moved = false
   end
 
   def moves
+    dirs = move_dirs
     move_array = []
-    move_dirs.each do |delta|
-      new_pos = pos.dup
-      temp = [new_pos.first + delta.first, new_pos.last + delta.last]
-      while temp.all? { |x| x.between(0,7) }
-        if board.occupied?(temp) && board[temp].color != color
+    new_pos = pos.dup
+    unless self.moved
+      [[0, 2],[0, -2]].each do |delta|
+        temp = [new_pos.first + delta.first, new_pos.last + delta.last]
+        if !board.occupied?(temp) && temp.all? { |x| x.between?(0,7) }
           move_array << temp
-          next
-        elsif board.occupied?(temp)
-          next
         end
-        move_array << temp
-        temp = [temp.first + delta.first, temp.last + delta.last]
       end
     end
+
+    dirs.each do |delta|
+      temp = [new_pos.first + delta.first, new_pos.last + delta.last]
+      if delta == dirs.first
+        if !board.occupied?(temp)
+          move_array << temp
+        end
+      elsif board.occupied?(temp) && board[temp].color != color
+        move_array << temp
+      end
+    end
+
     move_array
   end
 
   def move_dirs
-    raise NotImplementedError
-  end
-end
-
-class SteppingPiece < Piece
-  def initialize(pos, color, board)
-    super
-  end
-end
-
-class Queen < SlidingPiece
-  def initialize(pos, color, board)
-    super
-  end
-
-  def moves_dirs
-    [1, 0, -1].repeated_permutations(2).to_a.delete_if{|a| a == [0,0]}
-  end
-end
-
-class Bishop < SlidingPiece
-  def initialize(pos, color, board)
-    super
-  end
-
-  def moves_dirs
-    [1, -1].repeated_permutations(2).to_a
-  end
-end
-
-class Rook < SlidingPiece
-  def initialize(pos, color, board)
-    super
-  end
-
-  def moves_dirs
-    [[1,0], [0,1], [-1,0], [0,-1]]
-  end
-end
-
-class Knight < SteppingPiece
-  def initialize(pos, color, board)
-    super
-  end
-end
-
-class King < SteppingPiece
-  def initialize(pos, color, board)
-    super
-  end
-end
-
-class Pawn < Piece
-  def initalize(pos, color, board)
-    super
+    if self.color == :b
+      dirs = [[0,-1], [1,-1],[-1,-1]]
+    else
+      dirs = [[0,1], [1,1], [-1,1]]
+    end
+    dirs
   end
 end
