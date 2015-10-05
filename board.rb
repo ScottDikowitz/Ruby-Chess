@@ -29,6 +29,13 @@ class Board
   end
 
   def newboard
+    non_pawns = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+    (0..7).each do |i|
+      self[[0,i]] = non_pawns[i].new([0,i],:b,self)
+      self[[1,i]] = Pawn.new([1,i],:b,self)
+      self[[6,i]] = Pawn.new([1,i],:w,self)
+      self[[7,i]] = non_pawns[i].new([7,i],:w,self)
+    end
   end
 
 
