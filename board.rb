@@ -23,6 +23,11 @@ class Board
     self.grid[x][y] = piece
   end
 
+  def occupied?(pos)
+    return true if self[pos]
+    false
+  end
+
   def newboard
   end
 
