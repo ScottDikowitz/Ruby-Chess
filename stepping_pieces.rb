@@ -1,3 +1,4 @@
+require_relative 'piece'
 class SteppingPiece < Piece
   def initialize(pos, color, board)
     super
@@ -26,6 +27,10 @@ class Knight < SteppingPiece
     super
   end
 
+  def symbol
+    color == :w ? "♘" : "♞"
+  end
+
   def moves
   end
 
@@ -37,6 +42,10 @@ end
 class King < SteppingPiece
   def initialize(pos, color, board)
     super
+  end
+
+  def symbol
+    color == :w ? "♔" : "♚"
   end
 
   def move_dirs

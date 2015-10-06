@@ -1,3 +1,5 @@
+require_relative 'sliding_pieces'
+require_relative 'stepping_pieces'
 require_relative 'piece'
 require_relative 'display'
 
@@ -41,7 +43,7 @@ class Board
 
   def move(start, end_pos)
     raise MoveError "There is no piece at that location." if self[start].nil?
-    raise MoveError "Cannot move there." unless (
+    raise MoveError "Cannot move there." #unless (
       #Uncomment when we write valid_moves
       #self[start].valid_moves.include?(end_pos))
 
@@ -61,7 +63,7 @@ class Board
         return true if piece.moves.include?(king_pos)
       end
     end
-    
+
     false
   end
 end

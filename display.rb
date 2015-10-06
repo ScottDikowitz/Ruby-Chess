@@ -18,9 +18,9 @@ class Display
       row_rep = []
       row.each_with_index do |square, idy|
         if self.cursor == [idx, idy]
-          row_rep << " p ".colorize(:color => :white, :background => :blue)
+          row_rep << " #{board[[idx, idy]].symbol} ".colorize(:color => :white, :background => :blue)
         elsif board[[idx, idy]]
-          row_rep << " p "
+          row_rep << " #{board[[idx, idy]].symbol} "
         else
           row_rep << " _ "
         end

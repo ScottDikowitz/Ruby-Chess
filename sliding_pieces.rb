@@ -1,3 +1,4 @@
+require_relative 'piece'
 class SlidingPiece < Piece
   def initialize(pos, color, board)
     super
@@ -35,6 +36,10 @@ class Queen < SlidingPiece
     super
   end
 
+  def symbol
+    color == :w ? "♕" : "♛"
+  end
+
   def move_dirs
     [1, 0, -1].repeated_permutation(2).to_a.delete_if{|a| a == [0,0]}
   end
@@ -45,6 +50,10 @@ class Bishop < SlidingPiece
     super
   end
 
+  def symbol
+    color == :w ? "♗" : "♝"
+  end
+
   def move_dirs
     [1, -1].repeated_permutation(2).to_a
   end
@@ -53,6 +62,10 @@ end
 class Rook < SlidingPiece
   def initialize(pos, color, board)
     super
+  end
+
+  def symbol
+    color == :w ? "♖" : "♜"
   end
 
   def move_dirs

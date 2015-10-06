@@ -1,8 +1,6 @@
-require_relative 'sliding_pieces'
-require_relative 'stepping_pieces'
 
 class Piece
-  attr_reader :color, :pos, :board
+  attr_reader :color, :pos, :board, :symbol
   def initialize(pos, color, board)
     @pos = pos
     @color = color
@@ -34,7 +32,7 @@ class Pawn < Piece
       end
     end
 
-    
+
     move_dirs.each do |delta|
       temp = [new_pos.first + delta.first, new_pos.last + delta.last]
       if delta == dirs.first
@@ -47,6 +45,10 @@ class Pawn < Piece
     end
 
     move_array
+  end
+
+  def symbol
+    color == :w ? "♙" : "♟"
   end
 
   def move_dirs
