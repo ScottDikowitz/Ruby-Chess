@@ -52,6 +52,21 @@ class Board
     self[start] = nil
   end
 
+  def move!(start, end_pos)
+    self[end_pos] = self[start]
+    self[start] = nil
+    self[end_pos].pos = end_pos
+  end
+
+  def dup
+    board_dup = Board.new
+    self.board.grid.each_with_index do |row, idx|
+      row.each_with_index do |piece, idy|
+        board_dup.grid[idx][idy] = piece.class.new([idx, idy], piece.color, board_dup)
+      end
+    end
+    board_dup
+  end
 
   def checkmate?(color)
     mate = true

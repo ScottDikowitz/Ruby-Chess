@@ -8,7 +8,28 @@ class Piece
   end
 
   def moves
+  end
 
+  # def move!(pos)
+  #   old_pos = self.pos
+  #   self.board[pos] = self
+  #   self.board[old_pos] = nil
+  #   self.pos = pos
+  # end
+
+
+  def move_into_check?(pos)
+    board_dup = board.dup
+
+    board_dup.move!(self.pos, pos)
+
+    board_dup.in_check?(board_dup[pos].color)
+  end
+
+
+
+  def valid_moves
+    self.moves.select { |pos| !move_into_check?(pos) }
   end
 end
 
