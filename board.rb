@@ -2,6 +2,7 @@ require_relative 'sliding_pieces'
 require_relative 'stepping_pieces'
 require_relative 'piece'
 require_relative 'display'
+require 'byebug'
 
 
 class MoveError < StandardError
@@ -36,7 +37,7 @@ class Board
     (0..7).each do |i|
       self[[0,i]] = non_pawns[i].new([0,i],:b,self)
       self[[1,i]] = Pawn.new([1,i],:b,self)
-      self[[6,i]] = Pawn.new([1,i],:w,self)
+      self[[6,i]] = Pawn.new([6,i],:w,self)
       self[[7,i]] = non_pawns[i].new([7,i],:w,self)
     end
   end
@@ -44,12 +45,17 @@ class Board
 
   def move(start, end_pos)
     raise MoveError "There is no piece at that location." if self[start].nil?
-    raise MoveError "Cannot move there." #unless (
+    raise MoveError "Cannot move there." unless (
       #Uncomment when we write valid_moves
-      #self[start].valid_moves.include?(end_pos))
+      self[start].valid_moves.include?(end_pos))
 
-    self[end_pos] = self.grid[start]
+    self[end_pos] = self[start]
     self[start] = nil
+    if self[end_pos].class == Pawn
+      self[end_pos].moved = true
+    end
+    self[end_pos].pos = end_pos
+    nil
   end
 
   def move!(start, end_pos)
@@ -60,9 +66,13 @@ class Board
 
   def dup
     board_dup = Board.new
-    self.board.grid.each_with_index do |row, idx|
+    self.grid.each_with_index do |row, idx|
       row.each_with_index do |piece, idy|
-        board_dup.grid[idx][idy] = piece.class.new([idx, idy], piece.color, board_dup)
+        if piece
+          board_dup[[idx, idy]] = piece.class.new([idx, idy], piece.color, board_dup)
+        else
+          board_dup[[idx, idy]] = nil
+        end
       end
     end
     board_dup
@@ -71,7 +81,7 @@ class Board
   def checkmate?(color)
     mate = true
 
-    grid.each_with_index do |row, idx|
+    self.grid.each_with_index do |row, idx|
       row.each_with_index do |piece, idy|
         if piece
           mate = mate && (piece.color == color) && piece.valid_moves.empty?
@@ -83,15 +93,20 @@ class Board
   end
 
   def in_check?(color)
-    grid.each_with_index do |row, idx|
+    king_pos = nil
+    self.grid.each_with_index do |row, idx|
       row.each_with_index do |piece, idy|
-        king_pos = [idx, idy] if piece.class == King && piece.color = color
+        if !piece.nil?
+          king_pos = [idx, idy] if piece.class == King && piece.color == color
+        end
       end
     end
 
-    grid.each do |row|
+    self.grid.each do |row|
       row.each do |piece|
-        return true if piece.moves.include?(king_pos)
+        if !piece.nil?
+          return true if piece.moves.include?(king_pos)
+        end
       end
     end
 

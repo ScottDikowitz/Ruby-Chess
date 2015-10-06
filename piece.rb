@@ -1,6 +1,7 @@
 
 class Piece
-  attr_reader :color, :pos, :board, :symbol
+  attr_reader :color, :board, :symbol
+  attr_accessor :pos
   def initialize(pos, color, board)
     @pos = pos
     @color = color
@@ -44,10 +45,11 @@ class Pawn < Piece
   def moves
     move_array = []
     new_pos = pos.dup
+
     unless self.moved
-      [[0, 2],[0, -2]].each do |delta|
+      [[2, 0],[-2, 0]].each do |delta|
         temp = [new_pos.first + delta.first, new_pos.last + delta.last]
-        if !board.occupied?(temp) && temp.all? { |x| x.between?(0,7) }
+        if temp.all? { |x| x.between?(0,7) } && !board.occupied?(temp)
           move_array << temp
         end
       end
@@ -56,11 +58,11 @@ class Pawn < Piece
 
     move_dirs.each do |delta|
       temp = [new_pos.first + delta.first, new_pos.last + delta.last]
-      if delta == dirs.first
-        if !board.occupied?(temp)
+      if delta == move_dirs.first
+        if temp.all? { |x| x.between?(0,7) } && !board.occupied?(temp)
           move_array << temp
         end
-      elsif board.occupied?(temp) && board[temp].color != color
+      elsif (temp.all? { |x| x.between?(0,7) } && board.occupied?(temp) && board[temp].color != color)
         move_array << temp
       end
     end
@@ -73,10 +75,10 @@ class Pawn < Piece
   end
 
   def move_dirs
-    if self.color == :b
-      dirs = [[0,-1], [1,-1],[-1,-1]]
+    if self.color == :w
+      dirs = [[-1, 0], [-1, 1],[-1,-1]]
     else
-      dirs = [[0,1], [1,1], [-1,1]]
+      dirs = [[1, 0], [1,1], [1, -1]]
     end
     dirs
   end

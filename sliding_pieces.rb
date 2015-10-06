@@ -43,6 +43,10 @@ class Queen < SlidingPiece
   def move_dirs
     [1, 0, -1].repeated_permutation(2).to_a.delete_if{|a| a == [0,0]}
   end
+
+  def moves
+    super
+  end
 end
 
 class Bishop < SlidingPiece
@@ -57,6 +61,10 @@ class Bishop < SlidingPiece
   def move_dirs
     [1, -1].repeated_permutation(2).to_a
   end
+
+  def moves
+    super
+  end
 end
 
 class Rook < SlidingPiece
@@ -70,5 +78,9 @@ class Rook < SlidingPiece
 
   def move_dirs
     [[1,0], [0,1], [-1,0], [0,-1]]
+  end
+
+  def moves
+    super
   end
 end
