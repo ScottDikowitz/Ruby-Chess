@@ -23,7 +23,6 @@ class Pawn < Piece
   end
 
   def moves
-    dirs = move_dirs
     move_array = []
     new_pos = pos.dup
     unless self.moved
@@ -35,7 +34,8 @@ class Pawn < Piece
       end
     end
 
-    dirs.each do |delta|
+    
+    move_dirs.each do |delta|
       temp = [new_pos.first + delta.first, new_pos.last + delta.last]
       if delta == dirs.first
         if !board.occupied?(temp)

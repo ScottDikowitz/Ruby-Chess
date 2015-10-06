@@ -42,9 +42,26 @@ class Board
   def move(start, end_pos)
     raise MoveError "There is no piece at that location." if self[start].nil?
     raise MoveError "Cannot move there." unless (
-      self[start].valid_moves.include?(end_pos))
+      #Uncomment when we write valid_moves
+      #self[start].valid_moves.include?(end_pos))
 
     self[end_pos] = self.grid[start]
     self[start] = nil
+  end
+
+  def in_check?(color)
+    grid.each_with_index do |row, idx|
+      row.each_with_index do |piece, idy|
+        king_pos = [idx, idy] if piece.class == King && piece.color = color
+      end
+    end
+
+    grid.each do |row|
+      row.each do |piece|
+        return true if piece.moves.include?(king_pos)
+      end
+    end
+    
+    false
   end
 end

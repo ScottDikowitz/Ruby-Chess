@@ -9,7 +9,7 @@ class SlidingPiece < Piece
       new_pos = pos.dup
       temp = [new_pos.first + delta.first, new_pos.last + delta.last]
       while temp.all? { |x| x.between?(0,7) }
-        p temp
+        #p temp
         if board.occupied?(temp) && board[temp].color != color
           move_array << temp
           temp = [-1,-1]
