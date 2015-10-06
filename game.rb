@@ -1,6 +1,6 @@
 require_relative 'board'
 require_relative 'display'
-require 'cursorable'
+require_relative 'cursorable'
 class ChessGame
 
   attr_reader :board, :display
@@ -11,14 +11,42 @@ class ChessGame
     @player_2 = HumanPlayer.new(player_2, board)
   end
 
-  def run
+  # def run
+  #
+  #   over = false
+  #   while over == false
+  #     display.render
+  #     pos = self.player_1.move
+  #     pos = self.player_2.move
+  #   end
+  # end
+  def turn(cur_player)
+    display.selected = nil
+    display.cursor_pos = [0,0]
+    cur_player.cursor_pos = [0,0]
 
-    over = false
-    while over == false
+    selected_pos = nil
+    until selected_pos
       display.render
-      pos = self.player_1.move
-      pos = self.player_2.move
+      selected_pos = cur_player.get_input
+      display.cursor_pos = cur_player.cursor_pos
     end
+    display.selected = selected_pos
+
+    target_pos = nil
+    until target_pos
+      display.render
+      target_pos = cur_player.get_input
+      display.cursor_pos = cur_player.cursor_pos
+    end
+    board.move(selected_pos, target_pos)
+
+    rescue MoveError => e
+      puts "Invalid move, sukkah"
+      retry
+    end
+
+    display.render
   end
 
 end
@@ -30,6 +58,10 @@ class HumanPlayer
     @name = name
     @board = board
     @cursor_pos = [0,0]
+  end
+
+  def test
+    puts get_input
   end
 
 end

@@ -9,7 +9,7 @@ class Display
 
   def initialize(board)
     @cursor_pos = [0,0]
-    @selected = false
+    @selected = nil
     @board = board
   end
 
@@ -27,6 +27,11 @@ class Display
           else
             row_rep << "   ".colorize(bg => :blue)
           end
+        elsif selected == [idx, idy]
+          if board[[idx,idy]]
+            row_rep << " #{board[[idx, idy]].symbol} ".colorize(c => :green, bg => :red)
+          else
+            row_rep << "   ".colorize(bg => :red)
         elsif board[[idx, idy]]
           row_rep << " #{board[[idx, idy]].symbol} ".colorize(bg => back)
         else
