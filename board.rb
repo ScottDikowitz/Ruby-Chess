@@ -13,6 +13,7 @@ class Board
   def initialize
     @grid = Array.new(8) {Array.new(8)}
     newboard
+    nil
   end
 
   def [](pos)
@@ -49,6 +50,21 @@ class Board
 
     self[end_pos] = self.grid[start]
     self[start] = nil
+  end
+
+
+  def checkmate?(color)
+    mate = true
+
+    grid.each_with_index do |row, idx|
+      row.each_with_index do |piece, idy|
+        if piece
+          mate = mate && (piece.color == color) && piece.valid_moves.empty?
+        end
+      end
+    end
+
+    mate
   end
 
   def in_check?(color)
