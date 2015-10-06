@@ -32,6 +32,7 @@ class Display
             row_rep << " #{board[[idx, idy]].symbol} ".colorize(c => :green, bg => :red)
           else
             row_rep << "   ".colorize(bg => :red)
+          end
         elsif board[[idx, idy]]
           row_rep << " #{board[[idx, idy]].symbol} ".colorize(bg => back)
         else

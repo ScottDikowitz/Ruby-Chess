@@ -116,4 +116,8 @@ class Board
 
     false
   end
+
+  def inspect
+    "You made a board!"
+  end
 end

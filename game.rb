@@ -41,10 +41,10 @@ class ChessGame
     end
     board.move(selected_pos, target_pos)
 
-    rescue MoveError => e
-      puts "Invalid move, sukkah"
-      retry
-    end
+  rescue MoveError => e
+    puts "Invalid move, sukkah"
+    retry
+
 
     display.render
   end
