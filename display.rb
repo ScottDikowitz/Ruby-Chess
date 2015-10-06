@@ -5,10 +5,10 @@ require_relative 'cursorable'
 
 class Display
   attr_reader :board
-  attr_accessor :cursor
+  attr_accessor :cursor, :selected
 
   def initialize(board)
-    @cursor = [0,0]
+    @cursor_pos = [0,0]
     @selected = false
     @board = board
   end
@@ -16,6 +16,7 @@ class Display
   def render
     bg = :background
     c = :color
+
     board.grid.each_with_index do |row, idx|
       row_rep = []
       row.each_with_index do |square, idy|

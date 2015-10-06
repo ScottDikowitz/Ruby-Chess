@@ -64,6 +64,10 @@ class Board
     self[end_pos].pos = end_pos
   end
 
+  def in_bounds?(pos)
+    pos.all? { |x| x.between?(0,7) }
+  end
+
   def dup
     board_dup = Board.new
     self.grid.each_with_index do |row, idx|
