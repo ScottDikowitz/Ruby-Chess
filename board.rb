@@ -83,8 +83,8 @@ class Board
 
     self.grid.each_with_index do |row, idx|
       row.each_with_index do |piece, idy|
-        if piece
-          mate = mate && (piece.color == color) && piece.valid_moves.empty?
+        if piece && (piece.color == color)
+          mate = mate && piece.valid_moves.empty?
         end
       end
     end

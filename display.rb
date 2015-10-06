@@ -21,7 +21,11 @@ class Display
       row.each_with_index do |square, idy|
         back = ((idx + idy) % 2 == 0) ? :light_white : :white
         if self.cursor == [idx, idy]
-          row_rep << " #{board[[idx, idy]].symbol} ".colorize(c => :red, bg => :blue)
+          if board[[idx,idy]]
+            row_rep << " #{board[[idx, idy]].symbol} ".colorize(c => :red, bg => :blue)
+          else
+            row_rep << "   ".colorize(bg => :blue)
+          end
         elsif board[[idx, idy]]
           row_rep << " #{board[[idx, idy]].symbol} ".colorize(bg => back)
         else
