@@ -2,7 +2,6 @@ require_relative 'sliding_pieces'
 require_relative 'stepping_pieces'
 require_relative 'piece'
 require_relative 'display'
-require 'byebug'
 
 
 class MoveError < StandardError
